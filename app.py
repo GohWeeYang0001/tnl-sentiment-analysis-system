@@ -155,9 +155,21 @@ if uploaded_file is not None:
     st.subheader("Uploaded Dataset Preview")
     st.dataframe(batch_df.head())
 
+    columns = list(batch_df.columns)
+
+    if "comment" in columns:
+        default_index = columns.index("comment")
+    elif "message" in columns:
+        default_index = columns.index("message")
+    elif "translated_message" in columns:
+        default_index = columns.index("translated_message")
+    else:
+        default_index = 0
+
     text_column = st.selectbox(
         "Select the column that contains comments:",
-        batch_df.columns
+        columns,
+        index=default_index
     )
 
     if st.button("Analyse CSV"):
